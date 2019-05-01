@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+
+h1 {
+  color: black;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+}
+
+.my-heading {
+  @apply text-purple;
+  font-size: 33px;
+}
+
+.testing-heading {
+  color: orange;
+}
+
+h6 {
+  color: red;
+}
