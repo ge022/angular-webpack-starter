@@ -129,6 +129,7 @@ const developmentConfig = {
         hot: true,
         hotOnly: true,
         overlay: true,
+        historyApiFallback: true,
     },
     devtool: 'eval-source-map',
     module: {
@@ -142,6 +143,11 @@ const developmentConfig = {
                     {
                         loader: 'postcss-loader', // Process Tailwind CSS
                         options: {
+                            config: {
+                                ctx: {
+                                    mode: 'development',
+                                },
+                            },
                             sourceMap: 'inline',
                         }
                     },
@@ -161,6 +167,11 @@ const developmentConfig = {
                     {
                         loader: 'postcss-loader', // Process Tailwind CSS
                         options: {
+                            config: {
+                                ctx: {
+                                    mode: 'development',
+                                },
+                            },
                             sourceMap: 'inline',
                         }
                     },
@@ -198,6 +209,11 @@ const productionConfig = {
                     {
                         loader: 'postcss-loader', // Process Tailwind CSS
                         options: {
+                            config: {
+                                ctx: {
+                                    mode: 'production',
+                                },
+                            },
                             sourceMap: false,
                         }
                     },
@@ -216,6 +232,11 @@ const productionConfig = {
                     {
                         loader: 'postcss-loader', // Process Tailwind CSS
                         options: {
+                            config: {
+                                ctx: {
+                                    mode: 'production',
+                                },
+                            },
                             sourceMap: false,
                         }
                     },
