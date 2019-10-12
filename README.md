@@ -1,4 +1,4 @@
-# Angular 7 and Webpack 4 Starter Project
+# Angular and Webpack Starter Project
 
 ## Features
 - Angular CLI for commands

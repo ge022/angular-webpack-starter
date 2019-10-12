@@ -8,8 +8,8 @@ h1 {
 }
 
 .my-heading {
-  @apply text-purple;
   font-size: 33px;
+  @apply text-purple-400;
 }
 
 .testing-heading {
