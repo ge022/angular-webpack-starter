@@ -27,7 +27,7 @@ const sharedConfig = {
     resolve: {
         extensions: ['.ts', '.tsx', '.mjs', '.js', '.scss'],
     },
-
+    
     module: {
         rules: [
             {
@@ -69,7 +69,7 @@ const sharedConfig = {
                         // Get the name. E.g. node_modules/packageName/not/this/part.js
                         // or node_modules/packageName
                         const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
-
+                        
                         // Npm package names are URL-safe, but some servers don't like @ symbols
                         return `${packageName.replace('@', '')}`;
                     },
@@ -78,15 +78,15 @@ const sharedConfig = {
                         // Exclude the global styles
                         const moduleName = module.nameForCondition ? module.nameForCondition() : '';
                         return /[\\/]node_modules[\\/]/.test(moduleName) &&
-                            !chunks.some(({name}) => name === 'polyfills' || name === 'styles');
+                        !chunks.some(({name}) => name === 'polyfills' || name === 'styles');
                     },
-
+                    
                 },
             }
         },
         runtimeChunk: 'single',
     },
-
+    
     plugins: [
         new AngularCompilerPlugin({
             tsConfigPath: path.resolve(__dirname, './tsconfig.json'),
@@ -100,14 +100,17 @@ const sharedConfig = {
             excludeChunks: ['polyfills'],
             inlineSource: 'polyfillsLoader', // Inline the polyfill loader
             chunksSortMode: (chunk1, chunk2) => {
-                let orders = ['polyfillsLoader']; // Prioritize the polyfills loader. Webpack loads the rest of the chunks as needed.
-                let order1 = orders.indexOf(chunk1.names[0]);
-                let order2 = orders.indexOf(chunk2.names[0]);
-                return order2 - order1;
+                // Prioritize the polyfills loader. Webpack loads the rest of the chunks as needed.
+                if (chunk1 == 'polyfillsLoader') {
+                    return -1;
+                } else if (chunk2 == 'polyfillsLoader') {
+                    return 1;
+                }
+                return 0;
             },
             favicon: 'src/favicon.ico'
         }),
-        new HtmlWebpackInlineSourcePlugin(),
+        new HtmlWebpackInlineSourcePlugin(HtmlWebpackPlugin),
         new CopyPlugin([
             {from: './src/assets/images', to: 'assets/images'},
             {from: './src/assets/icons', to: 'assets/icons'},
@@ -196,7 +199,7 @@ const productionConfig = {
         styles: './src/assets/styles/styles.scss', // Ext needed for SuppressExtractedTextChunksWebpackPlugin
     },
     output: {
-        filename: '[id].[contenthash].js',
+        filename: '[name].[contenthash].js',
     },
     module: {
         rules: [
@@ -343,7 +346,7 @@ const productionConfig = {
                     },
                 },
                 {
-
+                    
                     urlPattern: /api/,
                     // Apply a network-first strategy.
                     handler: 'NetworkFirst',
@@ -394,6 +397,6 @@ module.exports = (mode = {}) => {
     if (mode === 'production') {
         return merge(sharedConfig, productionConfig);
     }
-
+    
     return merge(sharedConfig, developmentConfig);
 };

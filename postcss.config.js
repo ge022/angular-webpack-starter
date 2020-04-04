@@ -12,11 +12,7 @@ module.exports = ({file, options, env}) => {
             content: ['./src/**/*.html', './src/**/*.ts'],
             extractors: [
                 {
-                    extractor: class {
-                        static extract(content) {
-                            return content.match(/[A-Za-z0-9-_://]+/g) || []
-                        }
-                    },
+                    extractor: content => content.match(/[A-Za-z0-9-_://]+/g) || [],
                     extensions: ['html', 'ts']
                 }
             ],
